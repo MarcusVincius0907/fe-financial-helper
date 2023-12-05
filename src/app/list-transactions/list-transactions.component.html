@@ -1,11 +1,23 @@
 <!-- Example HTML for a styled table using Tailwind CSS -->
 
 <div class="max-w-screen-md mx-auto p-6">
+  <div class="my-5">
+    <div
+      class="bg-slate-400 p-2 border-slate-500 border-2 hover:opacity-50 w-44 cursor-pointer"
+      (click)="onRefresh()"
+    >
+      <div class="text-center text-white">Refresh</div>
+    </div>
+  </div>
+
   <table class="min-w-full bg-white border border-gray-300">
     <!-- Table Header -->
     <thead>
       <tr>
-        <th class="py-2 px-4 border-b" *ngFor="let item of tableHeader">
+        <th
+          class="py-2 px-4 border-b text-start"
+          *ngFor="let item of tableHeader"
+        >
           {{ item }}
         </th>
         <!-- Add more header columns if needed -->
@@ -20,6 +32,18 @@
         <td class="py-2 px-4 border-b">{{ item.description }}</td>
         <td class="py-2 px-4 border-b">{{ item.amount }}</td>
         <td class="py-2 px-4 border-b">{{ item.date }}</td>
+        <td class="py-2 px-4 border-b">
+          <select (change)="onCategorySelected($event.target)">
+            <option
+              *ngFor="let category of categoryItems"
+              [selected]="item.category === category.value"
+              [value]="category.value"
+              [id]="category.id"
+            >
+              {{ category.text }}
+            </option>
+          </select>
+        </td>
         <!-- Add more columns for each row if needed -->
       </tr>
       <!-- Table Row 2 -->
