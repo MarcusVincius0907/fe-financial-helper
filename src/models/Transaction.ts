@@ -1,5 +1,5 @@
 export interface TransactionItem {
-  id: string;
+  _id: string;
   externalId: string;
   description: string;
   amount: string;
@@ -8,7 +8,7 @@ export interface TransactionItem {
 }
 
 export interface CategoryItem {
-  id: string;
+  id?: string;
   value: string;
   text: string;
 }

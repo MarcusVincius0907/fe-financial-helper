@@ -5,4 +5,5 @@
 @import "tailwindcss/components";
 @import "tailwindcss/utilities";
 
-/* Your additional styles go here */
+// regular style toast
+@import "ngx-toastr/toastr";

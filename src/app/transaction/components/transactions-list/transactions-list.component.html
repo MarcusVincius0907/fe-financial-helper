@@ -1,0 +1,41 @@
+<table class="min-w-full bg-white border border-gray-300">
+  <!-- Table Header -->
+  <thead>
+    <tr>
+      <th
+        class="py-2 px-4 border-b text-start"
+        *ngFor="let item of tableHeader"
+      >
+        {{ item }}
+      </th>
+      <!-- Add more header columns if needed -->
+    </tr>
+  </thead>
+  <!-- Table Body -->
+  <tbody>
+    <!-- Table Row 1 -->
+
+    <tr *ngFor="let item of tableBody">
+      <td class="py-2 px-4 border-b">{{ item._id | slice : -4 }}</td>
+      <td class="py-2 px-4 border-b">{{ item.description }}</td>
+      <td class="py-2 px-4 border-b">{{ item.amount }}</td>
+      <td class="py-2 px-4 border-b">{{ item.date | date : "dd/MM/yyyy" }}</td>
+      <td class="py-2 px-4 border-b">
+        <select (change)="onCategorySelected($event.target)">
+          <option
+            *ngFor="let category of categoryItems"
+            [selected]="item.category === category.value"
+            [value]="category.value"
+            [id]="category.id"
+          >
+            {{ category.text }}
+          </option>
+        </select>
+      </td>
+      <!-- Add more columns for each row if needed -->
+    </tr>
+    <!-- Table Row 2 -->
+
+    <!-- Add more rows if needed -->
+  </tbody>
+</table>

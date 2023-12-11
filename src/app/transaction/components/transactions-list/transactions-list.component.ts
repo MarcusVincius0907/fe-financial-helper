@@ -1,16 +1,24 @@
-import { Component, OnInit } from '@angular/core';
+import {
+  Component,
+  OnChanges,
+  OnInit,
+  SimpleChanges,
+  Input,
+} from '@angular/core';
 import { CategoryItem, TransactionItem } from 'src/models/Transaction';
 
 @Component({
-  selector: 'app-list-transactions',
-  templateUrl: './list-transactions.component.html',
-  styleUrls: ['./list-transactions.component.scss'],
+  selector: 'transactions-list',
+  templateUrl: './transactions-list.component.html',
+  styleUrls: ['./transactions-list.component.scss'],
 })
-export class ListTransactionsComponent implements OnInit {
+export class TransactionsListComponent implements OnInit, OnChanges {
+  @Input() transactions: TransactionItem[];
+
   tableHeader: string[] = ['Id', 'Descricao', 'Valor', 'Data', 'Categoria'];
   tableBody: TransactionItem[] = [
     {
-      id: '1',
+      _id: '1',
       description: 'Sorvetes',
       externalId: 'abc',
       amount: '30,00',
@@ -18,7 +26,7 @@ export class ListTransactionsComponent implements OnInit {
       category: 'marcus',
     },
     {
-      id: '1',
+      _id: '1',
       description: 'Sorvetes',
       externalId: 'abc',
       amount: '30,00',
@@ -26,7 +34,7 @@ export class ListTransactionsComponent implements OnInit {
       category: 'vitoria',
     },
     {
-      id: '1',
+      _id: '1',
       description: 'Sorvetes',
       externalId: 'abc',
       amount: '30,00',
@@ -34,7 +42,7 @@ export class ListTransactionsComponent implements OnInit {
       category: 'marcus',
     },
     {
-      id: '1',
+      _id: '1',
       description: 'Sorvetes',
       externalId: 'abc',
       amount: '30,00',
@@ -70,7 +78,11 @@ export class ListTransactionsComponent implements OnInit {
 
   ngOnInit(): void {}
 
-  public onRefresh(): void {}
+  ngOnChanges(changes: SimpleChanges): void {
+    if (changes['transactions']) {
+      this.tableBody = changes['transactions'].currentValue;
+    }
+  }
 
   public onCategorySelected($event: any): void {
     let categorySelected: any = null;
