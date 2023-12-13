@@ -20,4 +20,14 @@ export class TransactionService {
       `${this.apiUrl}/transaction/all`
     );
   }
+
+  update(
+    id: string,
+    bodyData: TransactionItem
+  ): Observable<Response<TransactionItem>> {
+    return this.http.put<Response<TransactionItem>>(
+      `${this.apiUrl}/transaction/${id}`,
+      bodyData
+    );
+  }
 }

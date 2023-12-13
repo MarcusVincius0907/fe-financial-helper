@@ -4,11 +4,16 @@ export interface TransactionItem {
   description: string;
   amount: string;
   date: string;
-  category: string;
+  categoryId: string;
 }
 
 export interface CategoryItem {
-  id?: string;
+  _id: string;
+  value: string;
+  text: string;
+}
+
+export interface CategoryForm {
   value: string;
   text: string;
 }

@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { environment } from 'src/environments/environment';
 import { Response } from 'src/models/Http';
-import { CategoryItem } from 'src/models/Transaction';
+import { CategoryForm, CategoryItem } from 'src/models/Transaction';
 
 @Injectable({
   providedIn: 'root',
@@ -21,14 +21,14 @@ export class CategoryService {
     );
   }
 
-  create(data: CategoryItem): Observable<Response<CategoryItem>> {
+  create(data: CategoryForm): Observable<Response<CategoryItem>> {
     return this.http.post<Response<CategoryItem>>(
       `${this.apiUrl}/category/create`,
       data
     );
   }
 
-  update(id: string, data: CategoryItem): Observable<Response<CategoryItem>> {
+  update(id: string, data: CategoryForm): Observable<Response<CategoryItem>> {
     return this.http.put<Response<CategoryItem>>(
       `${this.apiUrl}/category/${id}`,
       data

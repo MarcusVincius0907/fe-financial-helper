@@ -4,16 +4,27 @@ import {
   OnInit,
   SimpleChanges,
   Input,
+  OnDestroy,
+  Output,
+  EventEmitter,
 } from '@angular/core';
 import { CategoryItem, TransactionItem } from 'src/models/Transaction';
+import { TransactionService } from '../../services/transaction.service';
+import { Subscription } from 'rxjs';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'transactions-list',
   templateUrl: './transactions-list.component.html',
   styleUrls: ['./transactions-list.component.scss'],
 })
-export class TransactionsListComponent implements OnInit, OnChanges {
+export class TransactionsListComponent implements OnInit, OnChanges, OnDestroy {
   @Input() transactions: TransactionItem[];
+  @Input() categories: CategoryItem[];
+
+  @Output() refreshList = new EventEmitter<void>();
+
+  private subscription = new Subscription();
 
   tableHeader: string[] = ['Id', 'Descricao', 'Valor', 'Data', 'Categoria'];
   tableBody: TransactionItem[] = [
@@ -23,7 +34,7 @@ export class TransactionsListComponent implements OnInit, OnChanges {
       externalId: 'abc',
       amount: '30,00',
       date: new Date().toISOString(),
-      category: 'marcus',
+      categoryId: 'marcus',
     },
     {
       _id: '1',
@@ -31,7 +42,7 @@ export class TransactionsListComponent implements OnInit, OnChanges {
       externalId: 'abc',
       amount: '30,00',
       date: new Date().toISOString(),
-      category: 'vitoria',
+      categoryId: 'vitoria',
     },
     {
       _id: '1',
@@ -39,7 +50,7 @@ export class TransactionsListComponent implements OnInit, OnChanges {
       externalId: 'abc',
       amount: '30,00',
       date: new Date().toISOString(),
-      category: 'marcus',
+      categoryId: 'marcus',
     },
     {
       _id: '1',
@@ -47,34 +58,14 @@ export class TransactionsListComponent implements OnInit, OnChanges {
       externalId: 'abc',
       amount: '30,00',
       date: new Date().toISOString(),
-      category: 'marcus',
+      categoryId: 'marcus',
     },
   ];
 
-  public categoryItems: CategoryItem[] = [
-    {
-      id: '1',
-      value: 'lazer',
-      text: 'Lazer',
-    },
-    {
-      id: '1',
-      value: 'marcus',
-      text: 'Gastos Marcus',
-    },
-    {
-      id: '1',
-      value: 'vitoria',
-      text: 'Gastos Vitoria',
-    },
-    {
-      id: '1',
-      value: 'casa',
-      text: 'Casa',
-    },
-  ];
-
-  constructor() {}
+  constructor(
+    private transactionService: TransactionService,
+    private toastr: ToastrService
+  ) {}
 
   ngOnInit(): void {}
 
@@ -84,15 +75,34 @@ export class TransactionsListComponent implements OnInit, OnChanges {
     }
   }
 
-  public onCategorySelected($event: any): void {
-    let categorySelected: any = null;
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
+  }
+
+  public onCategorySelected($event: any, transaction: TransactionItem): void {
+    let categoryIdSelected: any = null;
     Object.values($event).forEach((option: any) => {
       if (option?.selected) {
-        categorySelected = {
-          id: option?.id,
-          value: option?.value,
-        };
+        categoryIdSelected = option?.id;
       }
     });
+
+    const updatedTransaction: TransactionItem = {
+      ...transaction,
+      categoryId: categoryIdSelected,
+    };
+
+    this.subscription.add(
+      this.transactionService
+        .update(transaction._id, updatedTransaction)
+        .subscribe((response) => {
+          if (response.status === 'success') {
+            this.refreshList.emit();
+            this.toastr.success('Sucesso', 'Categoria alterada.');
+          } else {
+            this.toastr.error('Erro', 'Não foi possível alterar a categoria.');
+          }
+        })
+    );
   }
 }

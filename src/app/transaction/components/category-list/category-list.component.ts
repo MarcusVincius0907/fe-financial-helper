@@ -1,43 +1,44 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { CategoryItem } from 'src/models/Transaction';
+import { CategoryForm, CategoryItem } from 'src/models/Transaction';
 import { CategoryService } from '../../services/category.service';
 import { ToastrService } from 'ngx-toastr';
+import { Subscription } from 'rxjs';
 
 @Component({
   selector: 'category-list',
   templateUrl: './category-list.component.html',
 })
-export class CategoryListComponent implements OnInit {
-  @Output() refreshList = new EventEmitter<void>();
-
-  tableHeader: string[] = ['Id', 'Texto', 'Valor', 'Editar', 'Deletar'];
-  tableBody: CategoryItem[] = [
+export class CategoryListComponent implements OnInit, OnDestroy {
+  public tableHeader: string[] = ['Id', 'Texto', 'Valor', 'Editar', 'Deletar'];
+  public tableBody: CategoryItem[] = [
     {
-      id: '1',
+      _id: '1',
       value: 'lazer',
       text: 'Lazer',
     },
     {
-      id: '1',
+      _id: '1',
       value: 'marcus',
       text: 'Gastos Marcus',
     },
     {
-      id: '1',
+      _id: '1',
       value: 'vitoria',
       text: 'Gastos Vitoria',
     },
     {
-      id: '1',
+      _id: '1',
       value: 'casa',
       text: 'Casa',
     },
   ];
 
-  category: CategoryItem;
+  public category: CategoryItem;
 
-  isEdit: boolean = false;
+  public isEdit: boolean = false;
+
+  private subscriptions = new Subscription();
 
   constructor(
     private route: Router,
@@ -45,28 +46,64 @@ export class CategoryListComponent implements OnInit {
     private toastr: ToastrService
   ) {}
 
-  showSuccess() {
-    this.toastr.success('Hello world!', 'Toastr fun!');
-  }
-
   ngOnInit(): void {
     this.category = {
+      _id: '',
       text: '',
       value: '',
     };
+
+    this.getCategories();
+  }
+
+  ngOnDestroy(): void {
+    this.subscriptions.unsubscribe();
+  }
+
+  public toast(title: string, text: string) {
+    this.toastr.success(title, text);
   }
 
   public onSubmit(): void {
     if (this.category?.text && this.category?.value) {
+      const categoryForm = {
+        text: this.category.text,
+        value: this.category.value,
+      };
       if (!this.isEdit) {
-        this.categoryService.create(this.category).subscribe((response) => {
-          if (response.status === 'success') {
-            this.refreshList.emit();
-          }
-        });
+        this.subscriptions.add(
+          this.categoryService.create(categoryForm).subscribe((response) => {
+            if (response.status === 'success') {
+              this.refreshList();
+              this.toastr.success('Sucesso', 'Categoria criada.');
+            } else {
+              this.toastr.error('Erro', 'Não foi possível criar a categoria.');
+            }
+
+            this.resetCategoryModel();
+          })
+        );
+      } else {
+        this.subscriptions.add(
+          this.categoryService
+            .update(this.category._id, categoryForm)
+            .subscribe((response) => {
+              if (response.status === 'success') {
+                this.refreshList();
+                this.toastr.success('Sucesso', 'Categoria atualizada.');
+              } else {
+                this.toastr.error(
+                  'Erro',
+                  'Não foi possível atualizar a categoria.'
+                );
+              }
+
+              this.onCancelEdit();
+            })
+        );
       }
     } else {
-      console.error('Fill category information');
+      this.toastr.info('Atenção', 'Preencha os dados.');
     }
   }
 
@@ -76,16 +113,46 @@ export class CategoryListComponent implements OnInit {
   }
 
   public onCancelEdit(): void {
-    this.category = {
-      text: '',
-      value: '',
-    };
+    this.resetCategoryModel();
     this.isEdit = false;
   }
 
-  public onDelete(id?: string): void {}
+  public onDelete(id: string): void {
+    this.subscriptions.add(
+      this.categoryService.delete(id).subscribe((response) => {
+        if (response.status === 'success') {
+          this.refreshList();
+          this.toastr.success('Sucesso', 'Categoria deletada.');
+        } else {
+          this.toastr.error('Erro', 'Não foi possível deletar a categoria.');
+        }
+      })
+    );
+  }
 
   public goBack() {
     this.route.navigate(['list-transactions']);
+  }
+
+  private refreshList(): void {
+    this.getCategories();
+  }
+
+  private getCategories(): void {
+    this.subscriptions.add(
+      this.categoryService.getAll().subscribe((response) => {
+        if (response?.data?.length) {
+          this.tableBody = response?.data;
+        }
+      })
+    );
+  }
+
+  private resetCategoryModel(): void {
+    this.category = {
+      _id: '',
+      text: '',
+      value: '',
+    };
   }
 }

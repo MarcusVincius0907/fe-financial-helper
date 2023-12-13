@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { CategoryItem, TransactionItem } from 'src/models/Transaction';
 import { TransactionService } from './services/transaction.service';
 import { Subscription } from 'rxjs';
+import { CategoryService } from './services/category.service';
 
 @Component({
   selector: 'transaction',
@@ -11,16 +12,19 @@ import { Subscription } from 'rxjs';
 })
 export class TransactionComponent implements OnInit, OnDestroy {
   public transactions: TransactionItem[] = [];
+  public categories: CategoryItem[] = [];
 
   private subscriptions = new Subscription();
 
   constructor(
     private router: Router,
-    private transactionService: TransactionService
+    private transactionService: TransactionService,
+    private categoryService: CategoryService
   ) {}
 
   ngOnInit(): void {
     this.getTransactions();
+    this.getCategories();
   }
 
   ngOnDestroy(): void {
@@ -33,6 +37,7 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   public onRefresh(): void {
     this.getTransactions();
+    this.getCategories();
   }
 
   private getTransactions(): void {
@@ -40,6 +45,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.transactionService.getAll().subscribe((response) => {
         if (response?.data?.length) {
           this.transactions = response?.data;
+        }
+      })
+    );
+  }
+
+  private getCategories(): void {
+    this.subscriptions.add(
+      this.categoryService.getAll().subscribe((response) => {
+        if (response?.data?.length) {
+          this.categories = response?.data;
         }
       })
     );
