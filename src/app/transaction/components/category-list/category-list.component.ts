@@ -12,26 +12,6 @@ import { Subscription } from 'rxjs';
 export class CategoryListComponent implements OnInit, OnDestroy {
   public tableHeader: string[] = ['Id', 'Texto', 'Valor', 'Editar', 'Deletar'];
   public tableBody: CategoryItem[] = [
-    {
-      _id: '1',
-      value: 'lazer',
-      text: 'Lazer',
-    },
-    {
-      _id: '1',
-      value: 'marcus',
-      text: 'Gastos Marcus',
-    },
-    {
-      _id: '1',
-      value: 'vitoria',
-      text: 'Gastos Vitoria',
-    },
-    {
-      _id: '1',
-      value: 'casa',
-      text: 'Casa',
-    },
   ];
 
   public category: CategoryItem;

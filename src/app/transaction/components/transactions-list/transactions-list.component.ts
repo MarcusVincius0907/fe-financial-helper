@@ -26,41 +26,8 @@ export class TransactionsListComponent implements OnInit, OnChanges, OnDestroy {
 
   private subscription = new Subscription();
 
-  tableHeader: string[] = ['Id', 'Descricao', 'Valor', 'Data', 'Categoria'];
-  tableBody: TransactionItem[] = [
-    {
-      _id: '1',
-      description: 'Sorvetes',
-      externalId: 'abc',
-      amount: '30,00',
-      date: new Date().toISOString(),
-      categoryId: 'marcus',
-    },
-    {
-      _id: '1',
-      description: 'Sorvetes',
-      externalId: 'abc',
-      amount: '30,00',
-      date: new Date().toISOString(),
-      categoryId: 'vitoria',
-    },
-    {
-      _id: '1',
-      description: 'Sorvetes',
-      externalId: 'abc',
-      amount: '30,00',
-      date: new Date().toISOString(),
-      categoryId: 'marcus',
-    },
-    {
-      _id: '1',
-      description: 'Sorvetes',
-      externalId: 'abc',
-      amount: '30,00',
-      date: new Date().toISOString(),
-      categoryId: 'marcus',
-    },
-  ];
+  tableHeader: string[] = ['Index','Id', 'Descricao', 'Valor', 'Data', 'Categoria'];
+  tableBody: TransactionItem[] = [];
 
   constructor(
     private transactionService: TransactionService,
