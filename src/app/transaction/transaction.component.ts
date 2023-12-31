@@ -4,6 +4,7 @@ import { CategoryItem, TransactionItem } from 'src/models/Transaction';
 import { TransactionService } from './services/transaction.service';
 import { Subscription } from 'rxjs';
 import { CategoryService } from './services/category.service';
+import { ToastrService } from 'ngx-toastr';
 
 @Component({
   selector: 'transaction',
@@ -19,7 +20,8 @@ export class TransactionComponent implements OnInit, OnDestroy {
   constructor(
     private router: Router,
     private transactionService: TransactionService,
-    private categoryService: CategoryService
+    private categoryService: CategoryService,
+    private toastr: ToastrService
   ) {}
 
   ngOnInit(): void {
@@ -33,6 +35,14 @@ export class TransactionComponent implements OnInit, OnDestroy {
 
   public goToCategories(): void {
     this.router.navigate(['/list-categories']);
+  }
+
+  public goToChats(): void {
+    this.router.navigate(['/charts']);
+  }
+
+  public onSyncTransactions(): void {
+    this.syncTransaction();
   }
 
   public onRefresh(): void {
@@ -55,6 +65,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
       this.categoryService.getAll().subscribe((response) => {
         if (response?.data?.length) {
           this.categories = response?.data;
+        }
+      })
+    );
+  }
+
+  private syncTransaction(): void {
+    this.subscriptions.add(
+      this.transactionService.syncTransactions().subscribe((response) => {
+        if (response) {
+          this.toastr.success('Sincronizado com sucesso');
         }
       })
     );

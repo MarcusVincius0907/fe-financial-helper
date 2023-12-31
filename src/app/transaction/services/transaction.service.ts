@@ -30,4 +30,10 @@ export class TransactionService {
       bodyData
     );
   }
+
+  syncTransactions(): Observable<Response<TransactionItem[]>> {
+    return this.http.get<Response<TransactionItem[]>>(
+      `${this.apiUrl}/transaction/sync-transactions`
+    );
+  }
 }

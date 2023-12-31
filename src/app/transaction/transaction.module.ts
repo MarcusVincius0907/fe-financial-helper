@@ -8,10 +8,13 @@ import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
+import { TransactionChartComponent } from './components/transaction-chart/transaction-chart.component';
+import { NgApexchartsModule } from 'ng-apexcharts';
 
 const routes: Routes = [
   { path: 'list-transactions', component: TransactionComponent },
   { path: 'list-categories', component: CategoryListComponent },
+  { path: 'charts', component: TransactionChartComponent },
 ];
 
 @NgModule({
@@ -19,6 +22,7 @@ const routes: Routes = [
     TransactionComponent,
     TransactionsListComponent,
     CategoryListComponent,
+    TransactionChartComponent,
   ],
   imports: [
     CommonModule,
@@ -27,6 +31,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     ToastrModule.forRoot(),
     RouterModule.forChild(routes),
+    NgApexchartsModule,
   ],
   bootstrap: [TransactionComponent],
   providers: [],
