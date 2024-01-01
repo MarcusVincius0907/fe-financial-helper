@@ -23,14 +23,15 @@
       <td class="py-2 px-4 border-b">{{ item.date | date : "dd/MM/yyyy" }}</td>
       <td class="py-2 px-4 border-b">
         <select (change)="onCategorySelected($event.target, item)">
+          <option *ngIf="item.categoryId === 'default'" value="default">sem categoria</option>
           <option
-            *ngFor="let category of categories"
-            [selected]="item.categoryId === category._id"
-            [value]="category.value"
-            [id]="category._id"
-          >
-            {{  item.categoryId === 'default' ? 'sem categoria' : category.text }}
-          </option>
+              *ngFor="let category of categories"
+              [selected]="item.categoryId === category._id"
+              [value]="category.value"
+              [id]="category._id"
+            >
+              {{ category.text }}
+            </option>
         </select>
       </td>
       <!-- Add more columns for each row if needed -->
