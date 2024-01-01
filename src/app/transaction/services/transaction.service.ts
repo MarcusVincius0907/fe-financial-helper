@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { SerieItem, TransactionItem, TrasactionChart } from 'src/models/Transaction';
+import { TransactionItem, TrasactionChart } from 'src/models/Transaction';
 import { environment } from 'src/environments/environment';
 import { Response } from 'src/models/Http';
 
