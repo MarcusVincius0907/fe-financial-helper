@@ -41,9 +41,9 @@ export class TransactionComponent implements OnInit, OnDestroy {
     this.router.navigate(['/charts']);
   }
 
-  public onSyncTransactions(): void {
-    this.syncTransaction();
-  }
+  // public onSyncTransactions(): void {
+  //   this.syncTransaction();
+  // }
 
   public onRefresh(): void {
     this.getTransactions();
@@ -70,13 +70,16 @@ export class TransactionComponent implements OnInit, OnDestroy {
     );
   }
 
-  private syncTransaction(): void {
+  public syncTransactions($event: any): void {
     this.subscriptions.add(
-      this.transactionService.syncTransactions().subscribe((response) => {
-        if (response) {
-          this.toastr.success('Sincronizado com sucesso');
-        }
-      })
+      this.transactionService
+        .syncTransactions($event.fromDate, $event.toDate)
+        .subscribe((response) => {
+          if (response) {
+            this.transactions = response.data;
+            this.toastr.success('Sincronizado com sucesso');
+          }
+        })
     );
   }
 }

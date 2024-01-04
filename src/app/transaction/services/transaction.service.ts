@@ -31,9 +31,12 @@ export class TransactionService {
     );
   }
 
-  syncTransactions(): Observable<Response<TransactionItem[]>> {
+  syncTransactions(
+    fromDate: string,
+    toDate: string
+  ): Observable<Response<TransactionItem[]>> {
     return this.http.get<Response<TransactionItem[]>>(
-      `${this.apiUrl}/transaction/sync-transactions`
+      `${this.apiUrl}/transaction/sync-transactions/${fromDate}/${toDate}`
     );
   }
 
@@ -41,5 +44,5 @@ export class TransactionService {
     return this.http.get<Response<TrasactionChart>>(
       `${this.apiUrl}/charts/transactions`
     );
-  } 
+  }
 }

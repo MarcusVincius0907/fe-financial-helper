@@ -10,6 +10,7 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ToastrModule } from 'ngx-toastr';
 import { TransactionChartComponent } from './components/transaction-chart/transaction-chart.component';
 import { NgApexchartsModule } from 'ng-apexcharts';
+import { TransactionFilterComponent } from './components/transaction-filter/transaction-filter.component';
 
 const routes: Routes = [
   { path: 'list-transactions', component: TransactionComponent },
@@ -23,6 +24,7 @@ const routes: Routes = [
     TransactionsListComponent,
     CategoryListComponent,
     TransactionChartComponent,
+    TransactionFilterComponent,
   ],
   imports: [
     CommonModule,
