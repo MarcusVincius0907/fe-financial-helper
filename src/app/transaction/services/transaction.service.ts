@@ -40,6 +40,15 @@ export class TransactionService {
     );
   }
 
+  getFilteredByDate(
+    fromDate: string,
+    toDate: string
+  ): Observable<Response<TransactionItem[]>> {
+    return this.http.get<Response<TransactionItem[]>>(
+      `${this.apiUrl}/transaction/${fromDate}/${toDate}`
+    );
+  }
+
   getTransactionChart(): Observable<Response<TrasactionChart>> {
     return this.http.get<Response<TrasactionChart>>(
       `${this.apiUrl}/charts/transactions`

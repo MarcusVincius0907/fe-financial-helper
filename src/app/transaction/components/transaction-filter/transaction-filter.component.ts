@@ -25,7 +25,11 @@ const MONTHS = [
   styleUrls: ['./transaction-filter.component.scss'],
 })
 export class TransactionFilterComponent implements OnInit {
-  @Output() onDateSubmit = new EventEmitter<{
+  @Output() onSearchSubmit = new EventEmitter<{
+    fromDate: string;
+    toDate: string;
+  }>();
+  @Output() onSyncSubmit = new EventEmitter<{
     fromDate: string;
     toDate: string;
   }>();
@@ -48,6 +52,23 @@ export class TransactionFilterComponent implements OnInit {
       return;
     }
 
+    const dates = this.handleDate();
+
+    this.onSearchSubmit.emit(dates);
+  }
+
+  public onSync(): void {
+    if (!this.yearSelected || !this.monthSelected) {
+      console.error('Select both options');
+      return;
+    }
+
+    const dates = this.handleDate();
+
+    this.onSyncSubmit.emit(dates);
+  }
+
+  private handleDate() {
     //because it starts on 0
     const fromMonth = Number(this.monthSelected) + 1;
     //because we need the follow month, but need if its december
@@ -61,8 +82,9 @@ export class TransactionFilterComponent implements OnInit {
       fromMonth,
       DIA_FECHAMENTO_FATURA
     );
+
     const toDate = generateISODate(toYear, toMonth, DIA_FECHAMENTO_FATURA);
 
-    this.onDateSubmit.emit({ fromDate, toDate });
+    return { fromDate, toDate };
   }
 }

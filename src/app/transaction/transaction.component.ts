@@ -76,8 +76,19 @@ export class TransactionComponent implements OnInit, OnDestroy {
         .syncTransactions($event.fromDate, $event.toDate)
         .subscribe((response) => {
           if (response) {
-            this.transactions = response.data;
             this.toastr.success('Sincronizado com sucesso');
+          }
+        })
+    );
+  }
+
+  public searchTransactions($event: any): void {
+    this.subscriptions.add(
+      this.transactionService
+        .getFilteredByDate($event.fromDate, $event.toDate)
+        .subscribe((response) => {
+          if (response) {
+            this.transactions = response.data;
           }
         })
     );

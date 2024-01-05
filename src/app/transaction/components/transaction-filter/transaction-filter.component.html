@@ -15,10 +15,18 @@
       <option *ngFor="let item of years" [value]="item">{{ item }}</option>
     </select>
   </div>
-  <div
-    (click)="onSearch()"
-    class="bg-slate-500 p-1 text-white rounded-sm hover:opacity-90 hover:cursor-pointer"
-  >
-    <div>Buscar</div>
+  <div class="flex gap-1">
+    <div
+      (click)="onSync()"
+      class="bg-slate-500 p-1 text-white rounded-sm hover:opacity-90 hover:cursor-pointer"
+    >
+      <div>Sincronizar</div>
+    </div>
+    <div
+      (click)="onSearch()"
+      class="bg-slate-500 p-1 text-white rounded-sm hover:opacity-90 hover:cursor-pointer"
+    >
+      <div>Buscar</div>
+    </div>
   </div>
 </div>

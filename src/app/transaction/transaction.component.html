@@ -1,4 +1,4 @@
-<div class="max-w-screen-md mx-auto p-6">
+<div class="max-w-screen-xl mx-auto p-6">
   <div class="my-5">
     <!-- <div
       class="bg-slate-400 p-2 border-slate-500 border-2 hover:opacity-50 w-44 cursor-pointer"
@@ -27,7 +27,8 @@
   </div>
   <div>
     <transaction-filter
-      (onDateSubmit)="syncTransactions($event)"
+      (onSyncSubmit)="syncTransactions($event)"
+      (onSearchSubmit)="searchTransactions($event)"
     ></transaction-filter>
   </div>
   <transactions-list
