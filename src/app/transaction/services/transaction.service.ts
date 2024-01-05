@@ -49,9 +49,12 @@ export class TransactionService {
     );
   }
 
-  getTransactionChart(): Observable<Response<TrasactionChart>> {
+  getTransactionChart(
+    fromDate: string,
+    toDate: string
+  ): Observable<Response<TrasactionChart>> {
     return this.http.get<Response<TrasactionChart>>(
-      `${this.apiUrl}/charts/transactions`
+      `${this.apiUrl}/charts/transactions/${fromDate}/${toDate}`
     );
   }
 }

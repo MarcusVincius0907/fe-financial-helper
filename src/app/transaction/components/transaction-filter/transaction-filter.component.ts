@@ -3,6 +3,7 @@ import { generateISODate, getLastAndNext5Years } from 'src/helper';
 import { TransactionService } from '../../services/transaction.service';
 import { Subscription } from 'rxjs';
 import { DIA_FECHAMENTO_FATURA } from 'src/constans';
+import { Router } from '@angular/router';
 
 const MONTHS = [
   'Janeiro',
@@ -40,7 +41,7 @@ export class TransactionFilterComponent implements OnInit {
   public monthSelected: string;
   public yearSelected: number;
 
-  constructor() {
+  constructor(private router: Router) {
     this.years = getLastAndNext5Years();
   }
 
@@ -66,6 +67,17 @@ export class TransactionFilterComponent implements OnInit {
     const dates = this.handleDate();
 
     this.onSyncSubmit.emit(dates);
+  }
+
+  public onGetGraph(): void {
+    if (!this.yearSelected || !this.monthSelected) {
+      console.error('Select both options');
+      return;
+    }
+
+    const dates = this.handleDate();
+
+    this.router.navigate(['/charts'], { queryParams: dates });
   }
 
   private handleDate() {
