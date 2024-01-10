@@ -11,15 +11,7 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v1
-
-      - name: Set up SSH key
-        run: |
-          mkdir -p ~/.ssh
-          echo "$SERVER_SSH_KEY" > ~/.ssh/id_rsa
-          chmod 600 ~/.ssh/id_rsa
-          eval "$(ssh-agent -s)"
-          ssh-add ~/.ssh/id_rsa
+        uses: actions/checkout@v4
 
       - name: Deploy to Server
         uses: appleboy/ssh-action@master
