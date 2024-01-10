@@ -19,8 +19,6 @@ jobs:
           host: ${{ secrets.SERVER_SSH_HOST }}
           username: ${{ secrets.SERVER_SSH_USERNAME }}
           key: ${{ secrets.SERVER_SSH_KEY }}
-          passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
-          port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
             cd /home/projects/financial-helper/fe-financial-helper
             git pull origin main
