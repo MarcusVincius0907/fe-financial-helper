@@ -1,4 +1,4 @@
-name: Deploy to Server
+name: Deploy to Hostinger Server
 
 on:
   push:
@@ -23,4 +23,6 @@ jobs:
           script: |
             cd /home/projects/financial-helper/fe-financial-helper
             git pull origin main
-            touch hell2
+            cd /home/projects/financial-helper 
+            docker-compose down
+            docker-compose up --build
