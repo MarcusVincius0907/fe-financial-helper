@@ -24,5 +24,4 @@ jobs:
           script: |
             cd /home/projects/financial-helper/fe-financial-helper
             git pull origin main
-            marcus0907
-            touch hello
+            touch hell2
