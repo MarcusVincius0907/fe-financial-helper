@@ -22,8 +22,6 @@ jobs:
           passphrase: ${{ secrets.SERVER_SSH_PASSPHRASE }}
           port: ${{ secrets.SERVER_SSH_PORT }}
           script: |
-            eval "$(ssh-agent -s)"
-            ssh-add ~/.ssh/id_rsa
             cd /home/projects/financial-helper/fe-financial-helper
             git pull origin main
             touch hell2
