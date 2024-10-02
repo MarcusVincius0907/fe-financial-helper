@@ -1,2 +1,161 @@
-<transactions-filter></transactions-filter>
-<p>transactions-list works!</p>
+<!-- <transactions-filter></transactions-filter> -->
+<div class="card">
+    <h5 class="text-3xl text-bold mb-5">Listagem dos gastos</h5>
+    <p-table
+        #dt1
+        [value]="transactions"
+        dataKey="id"
+
+        [loading]="loading"
+        [globalFilterFields]="[
+            'description',
+        ]"
+    >
+        <ng-template pTemplate="caption">
+            <div class="flex">
+                <p-button
+                    label="Clear"
+                    [outlined]="true"
+                    icon="pi pi-filter-slash"
+                    (onClick)="clear(dt1)"
+                />
+                <span class="p-input-icon-left ml-auto">
+                    <i class="pi pi-search"></i>
+                    <input
+                        pInputText
+                        type="text"
+                        [(ngModel)]="searchValue"
+                        (input)="
+                            dt1.filterGlobal($event.target.value, 'contains')
+                        "
+                        placeholder="Search keyword"
+                    />
+                </span>
+            </div>
+        </ng-template>
+        <ng-template pTemplate="header">
+            <tr>
+                <th style="min-width: 5rem">
+                    <div class="flex align-items-center">
+                        Id
+                        <!-- <p-columnFilter
+                            type="text"
+                            field="name"
+                            display="menu"
+                        /> -->
+                    </div>
+                </th>
+                <th style="min-width: 15rem">
+                    <div class="flex align-items-center">
+                        Descrição
+                        <!-- <p-columnFilter
+                            type="text"
+                            field="country.name"
+                            display="menu"
+                        /> -->
+                    </div>
+                </th>
+                <th style="min-width: 5rem">
+                    <div class="flex align-items-center">
+                        Valor
+                        <!-- <p-columnFilter
+                            field="representative"
+                            matchMode="in"
+                            display="menu"
+                            [showMatchModes]="false"
+                            [showOperator]="false"
+                            [showAddButton]="false"
+                        >
+                            <ng-template pTemplate="header">
+                                <div class="px-3 pt-3 pb-0">
+                                    <span class="font-bold">Agent Picker</span>
+                                </div>
+                            </ng-template>
+                            <ng-template
+                                pTemplate="filter"
+                                let-value
+                                let-filter="filterCallback"
+                            >
+                                <p-multiSelect
+                                    [ngModel]="value"
+                                    [options]="representatives"
+                                    placeholder="Any"
+                                    (onChange)="filter($event.value)"
+                                    optionLabel="name"
+                                >
+                                    <ng-template let-option pTemplate="item">
+                                        <div
+                                            class="inline-block vertical-align-middle"
+                                        >
+                                            <img
+                                                [alt]="option.label"
+                                                src="https://primefaces.org/cdn/primeng/images/demo/avatar/{{
+                                                    option.image
+                                                }}"
+                                                width="24"
+                                                class="vertical-align-middle"
+                                            />
+                                            <span class="ml-1 mt-1">{{
+                                                option.name
+                                            }}</span>
+                                        </div>
+                                    </ng-template>
+                                </p-multiSelect>
+                            </ng-template>
+                        </p-columnFilter> -->
+                    </div>
+                </th>
+                <th style="min-width: 10rem">
+                    <div class="flex align-items-center">
+                        Data
+                        <!-- <p-columnFilter
+                            type="date"
+                            field="date"
+                            display="menu"
+                        /> -->
+                    </div>
+                </th>
+                <th style="min-width: 15rem">
+                    <div class="flex align-items-center">
+                        Categoria
+                        <!-- <p-columnFilter
+                            type="numeric"
+                            field="balance"
+                            display="menu"
+                            currency="USD"
+                        /> -->
+                    </div>
+                </th>
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="body" let-transaction>
+            <tr>
+                <td>
+                    {{ transaction._id | slice : -4 }}
+                </td>
+                <td>
+                    {{ transaction.description }}
+                </td>
+                <td>
+                    {{ transaction.amount }}
+                </td>
+                <td>
+                    {{ transaction.date | date : "dd/MM/yyyy" }}
+                </td>
+                <td>
+                    <p-dropdown
+                        [options]="categories"
+                        [(ngModel)]="selectedCategory"
+                        optionLabel="text"
+                        placeholder="Selecione a categoria" />
+                </td>
+
+            </tr>
+        </ng-template>
+        <ng-template pTemplate="emptymessage">
+            <tr>
+                <td colspan="7">No customers found.</td>
+            </tr>
+        </ng-template>
+    </p-table>
+</div>
