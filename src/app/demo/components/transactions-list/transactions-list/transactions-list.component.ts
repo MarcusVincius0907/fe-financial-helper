@@ -56,6 +56,10 @@ export class TransactionsListComponent {
         ];
     }
 
+    ngOnDestroy(): void {
+        this.subscriptions.unsubscribe();
+    }
+
     private getTransactions(): void {
         this.subscriptions.add(
             this.transactionsService.getAll().subscribe((response) => {
