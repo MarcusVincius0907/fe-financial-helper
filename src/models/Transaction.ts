@@ -11,11 +11,13 @@ export interface CategoryItem {
   _id: string;
   value: string;
   text: string;
+  budget: number;
 }
 
 export interface CategoryForm {
   value: string;
   text: string;
+  budget: number;
 }
 
 export interface TrasactionChart {

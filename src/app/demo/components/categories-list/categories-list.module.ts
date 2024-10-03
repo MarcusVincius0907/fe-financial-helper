@@ -16,28 +16,35 @@ import { DropdownModule } from 'primeng/dropdown';
 import { RadioButtonModule } from 'primeng/radiobutton';
 import { InputNumberModule } from 'primeng/inputnumber';
 import { DialogModule } from 'primeng/dialog';
-
+import { MessageService } from 'primeng/api';
+import { StoreModule } from '@ngrx/store';
+import { categoriesReducer } from 'src/app/store/reducer/category.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { CategoriesEffects } from 'src/app/store/effects/category.effect';
 
 @NgModule({
-  declarations: [CategoriesListComponent],
-  imports: [
-    TransactionsListRoutingModule,
-    CommonModule,
-    TableModule,
-    FileUploadModule,
-    FormsModule,
-    ButtonModule,
-    RippleModule,
-    //ToastModule,
-    ToolbarModule,
-    RatingModule,
-    InputTextModule,
-    InputTextareaModule,
-    DropdownModule,
-    RadioButtonModule,
-    InputNumberModule,
-    DialogModule
-  ],
-  bootstrap: [CategoriesListComponent]
+    declarations: [CategoriesListComponent],
+    imports: [
+        TransactionsListRoutingModule,
+        CommonModule,
+        TableModule,
+        FileUploadModule,
+        FormsModule,
+        ButtonModule,
+        RippleModule,
+        ToastModule,
+        ToolbarModule,
+        RatingModule,
+        InputTextModule,
+        InputTextareaModule,
+        DropdownModule,
+        RadioButtonModule,
+        InputNumberModule,
+        DialogModule,
+        StoreModule.forFeature('categories', categoriesReducer),
+        EffectsModule.forFeature([CategoriesEffects]),
+    ],
+    bootstrap: [CategoriesListComponent],
+    providers: [MessageService],
 })
-export class CategoriesListModule { }
+export class CategoriesListModule {}

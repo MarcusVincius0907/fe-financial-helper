@@ -17,6 +17,8 @@ import { AppFooterComponent } from './app.footer.component';
 import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from "./app.sidebar.component";
 import { AppLayoutComponent } from "./app.layout.component";
+import { CalendarModule } from 'primeng/calendar';
+import { DatepickertrangeComponent } from '../demo/components/shared/datepickertrange/datepickertrange.component';
 
 @NgModule({
     declarations: [
@@ -39,7 +41,9 @@ import { AppLayoutComponent } from "./app.layout.component";
         InputSwitchModule,
         RippleModule,
         RouterModule,
-        AppConfigModule
+        AppConfigModule,
+        CalendarModule,
+        DatepickertrangeComponent
     ],
     exports: [AppLayoutComponent]
 })

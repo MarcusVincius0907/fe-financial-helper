@@ -1,0 +1,15 @@
+<p-button (onClick)="op.toggle($event)" icon="pi pi-calendar" label="Periodo" />
+<p-overlayPanel #op>
+    <div class="flex flex-col p-5 gap-3">
+        <p-calendar
+            inputId="icondisplay"
+            selectionMode="range"
+            [iconDisplay]="'input'"
+            [showIcon]="true"
+            [numberOfMonths]="2"
+            [(ngModel)]="date1"
+        />
+
+        <p-button (onClick)="onSelectRange()" label="Ok" />
+    </div>
+</p-overlayPanel>

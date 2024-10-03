@@ -11,6 +11,12 @@ import { DropdownModule } from 'primeng/dropdown';
 import { MultiSelectModule } from 'primeng/multiselect';
 import { ProgressBarModule } from 'primeng/progressbar';
 import { ButtonModule } from 'primeng/button';
+import { MessageService } from 'primeng/api';
+import { ToastModule } from 'primeng/toast';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { transactionReducer } from 'src/app/store/reducer/transaction.reducer';
+import { TransactionsEffects } from 'src/app/store/effects/transaction.effect';
 
 
 @NgModule({
@@ -25,8 +31,12 @@ import { ButtonModule } from 'primeng/button';
     DropdownModule,
     MultiSelectModule,
     ProgressBarModule,
-    ButtonModule
+    ButtonModule,
+    ToastModule,
+    StoreModule.forFeature('transactions', transactionReducer),
+    EffectsModule.forFeature([TransactionsEffects])
   ],
-  bootstrap:[TransactionsListComponent]
+  bootstrap:[TransactionsListComponent],
+  providers:[MessageService]
 })
 export class TransactionsListModule { }

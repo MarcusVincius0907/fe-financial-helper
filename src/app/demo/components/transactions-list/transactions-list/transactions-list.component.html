@@ -28,7 +28,7 @@
                         (input)="
                             dt1.filterGlobal($event.target.value, 'contains')
                         "
-                        placeholder="Search keyword"
+                        placeholder="Buscar"
                     />
                 </span>
             </div>
@@ -143,11 +143,17 @@
                     {{ transaction.date | date : "dd/MM/yyyy" }}
                 </td>
                 <td>
-                    <p-dropdown
-                        [options]="categories"
-                        [(ngModel)]="selectedCategory"
-                        optionLabel="text"
-                        placeholder="Selecione a categoria" />
+                    <select class=" border-none outline-none text-gray-600" (change)="onCategorySelected($event.target, transaction)">
+                        <option *ngIf="transaction.categoryId === 'default'" value="default">Sem categoria</option>
+                        <option
+                            *ngFor="let category of categories"
+                            [selected]="transaction.categoryId === category._id"
+                            [value]="category.value"
+                            [id]="category._id"
+                          >
+                            {{ category.text }}
+                          </option>
+                      </select>
                 </td>
 
             </tr>
@@ -158,4 +164,5 @@
             </tr>
         </ng-template>
     </p-table>
+    <p-toast />
 </div>

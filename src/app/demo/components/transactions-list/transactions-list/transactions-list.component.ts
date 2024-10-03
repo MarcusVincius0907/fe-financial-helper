@@ -1,9 +1,15 @@
 import { Component } from '@angular/core';
+import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
 import { CategoriesService } from 'src/app/demo/service/categories.service';
 import { CustomerService } from 'src/app/demo/service/customer.service';
 import { TransactionService } from 'src/app/demo/service/transactions.service';
+import { requestCategories } from 'src/app/store/actions/category.action';
+import { requestTransactions, updateTransaction } from 'src/app/store/actions/transaction.action';
+import { getCategories } from 'src/app/store/selectors/category.selector';
+import { getTransactions } from 'src/app/store/selectors/transaction.selector';
 import { CategoryItem, TransactionItem } from 'src/models/Transaction';
 
 @Component({
@@ -27,57 +33,64 @@ export class TransactionsListComponent {
 
     private subscriptions = new Subscription();
 
-    constructor(private transactionsService: TransactionService, private categoriesService: CategoriesService) {}
+    constructor(private store$: Store) {}
 
     ngOnInit() {
         this.getTransactions();
         this.getCategories();
 
-        this.representatives = [
-            { name: 'Amy Elsner', image: 'amyelsner.png' },
-            { name: 'Anna Fali', image: 'annafali.png' },
-            { name: 'Asiya Javayant', image: 'asiyajavayant.png' },
-            { name: 'Bernardo Dominic', image: 'bernardodominic.png' },
-            { name: 'Elwin Sharvill', image: 'elwinsharvill.png' },
-            { name: 'Ioni Bowcher', image: 'ionibowcher.png' },
-            { name: 'Ivan Magalhaes', image: 'ivanmagalhaes.png' },
-            { name: 'Onyama Limba', image: 'onyamalimba.png' },
-            { name: 'Stephen Shaw', image: 'stephenshaw.png' },
-            { name: 'Xuxue Feng', image: 'xuxuefeng.png' }
-        ];
+        this.subscriptions.add(
+            this.store$.select(getCategories).subscribe(categories => {
+                if(categories){
+                    this.categories = categories
+                }
+            }),
+        )
 
-        this.statuses = [
-            { label: 'Unqualified', value: 'unqualified' },
-            { label: 'Qualified', value: 'qualified' },
-            { label: 'New', value: 'new' },
-            { label: 'Negotiation', value: 'negotiation' },
-            { label: 'Renewal', value: 'renewal' },
-            { label: 'Proposal', value: 'proposal' }
-        ];
+        this.subscriptions.add(
+            this.store$.select(getTransactions).subscribe(transactions => {
+                if(transactions){
+                    this.transactions = transactions
+
+                }
+
+                this.loading = false;
+            }),
+        )
     }
 
     ngOnDestroy(): void {
         this.subscriptions.unsubscribe();
     }
 
+
+    public onCategorySelected($event: any, transaction: TransactionItem): void {
+        let categoryIdSelected: any = null;
+        Object.values($event).forEach((option: any) => {
+          if (option?.selected) {
+            categoryIdSelected = option?.id;
+          }
+        });
+
+        const updatedTransaction: TransactionItem = {
+          ...transaction,
+          categoryId: categoryIdSelected,
+        };
+
+        this.subscriptions.add(
+            this.store$.dispatch(updateTransaction({id: transaction._id, transaction: updatedTransaction}))
+        );
+    }
+
     private getTransactions(): void {
         this.subscriptions.add(
-            this.transactionsService.getAll().subscribe((response) => {
-                if (response?.data?.length) {
-                    this.transactions = response?.data;
-                }
-                this.loading = false;
-            })
+            this.store$.dispatch(requestTransactions())
         );
     }
 
     private getCategories(): void {
         this.subscriptions.add(
-            this.categoriesService.getAll().subscribe((response) => {
-            if (response?.data?.length) {
-                this.categories = response?.data;
-            }
-            })
+            this.store$.dispatch(requestCategories())
         );
     }
 
