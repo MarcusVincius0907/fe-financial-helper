@@ -17,6 +17,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { transactionReducer } from 'src/app/store/reducer/transaction.reducer';
 import { TransactionsEffects } from 'src/app/store/effects/transaction.effect';
+import { categoriesReducer } from 'src/app/store/reducer/category.reducer';
+import { CategoriesEffects } from 'src/app/store/effects/category.effect';
 
 
 @NgModule({
@@ -33,6 +35,7 @@ import { TransactionsEffects } from 'src/app/store/effects/transaction.effect';
     ProgressBarModule,
     ButtonModule,
     ToastModule,
+    StoreModule.forFeature('categories', categoriesReducer),
     StoreModule.forFeature('transactions', transactionReducer),
     EffectsModule.forFeature([TransactionsEffects])
   ],

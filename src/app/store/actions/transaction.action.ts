@@ -3,7 +3,7 @@ import { TransactionItem } from "src/models/Transaction";
 
 //Get transactions
 export const requestTransactions = createAction(
-  'Request Transactions'
+  'Request Transactions',
 );
 
 export const requestTransactionsSuccess = createAction(
@@ -14,6 +14,12 @@ export const requestTransactionsSuccess = createAction(
 export const requestTransactionsError = createAction(
   'Request Transactions Error',
   props<{ error: string }>()
+);
+
+//
+export const setDatesTransactions = createAction(
+    'Set Dates Transactions',
+    props<{ fromDate: string, toDate: string }>()
 );
 
 
@@ -31,3 +37,16 @@ export const updateTransactionError = createAction(
     'Update Transactions Error'
 );
 
+//sync transactions
+export const syncTransactions = createAction(
+    'Sync Transactions',
+);
+
+export const syncTransactionsSuccess = createAction(
+    'Sync Transactions Success',
+);
+
+export const syncTransactionsError = createAction(
+    'Sync Transactions Error',
+    props<{ error: string }>()
+);

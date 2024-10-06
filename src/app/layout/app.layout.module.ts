@@ -15,10 +15,23 @@ import { RouterModule } from '@angular/router';
 import { AppTopBarComponent } from './app.topbar.component';
 import { AppFooterComponent } from './app.footer.component';
 import { AppConfigModule } from './config/config.module';
-import { AppSidebarComponent } from "./app.sidebar.component";
-import { AppLayoutComponent } from "./app.layout.component";
+import { AppSidebarComponent } from './app.sidebar.component';
+import { AppLayoutComponent } from './app.layout.component';
 import { CalendarModule } from 'primeng/calendar';
 import { DatepickertrangeComponent } from '../demo/components/shared/datepickertrange/datepickertrange.component';
+import { OverlayPanelModule } from 'primeng/overlaypanel';
+import { InputGroupModule } from 'primeng/inputgroup';
+import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
+import { ButtonModule } from 'primeng/button';
+import { ChipsModule } from 'primeng/chips';
+import { CommonModule } from '@angular/common';
+import { StoreModule } from '@ngrx/store';
+import { transactionReducer } from '../store/reducer/transaction.reducer';
+import { EffectsModule } from '@ngrx/effects';
+import { TransactionsEffects } from '../store/effects/transaction.effect';
+import { ToastModule } from 'primeng/toast';
+import { categoriesReducer } from '../store/reducer/category.reducer';
+import { CategoriesEffects } from '../store/effects/category.effect';
 
 @NgModule({
     declarations: [
@@ -28,6 +41,7 @@ import { DatepickertrangeComponent } from '../demo/components/shared/datepickert
         AppMenuComponent,
         AppSidebarComponent,
         AppLayoutComponent,
+        DatepickertrangeComponent
     ],
     imports: [
         BrowserModule,
@@ -38,13 +52,25 @@ import { DatepickertrangeComponent } from '../demo/components/shared/datepickert
         SidebarModule,
         BadgeModule,
         RadioButtonModule,
+        ToastModule,
         InputSwitchModule,
         RippleModule,
         RouterModule,
         AppConfigModule,
         CalendarModule,
-        DatepickertrangeComponent
+        OverlayPanelModule,
+        InputGroupModule,
+        InputGroupAddonModule,
+        ButtonModule,
+        InputTextModule,
+        ChipsModule,
+        CommonModule,
+        CalendarModule,
+        FormsModule,
+        StoreModule.forFeature('categories', categoriesReducer),
+        StoreModule.forFeature('transactions', transactionReducer),
+        EffectsModule.forFeature([TransactionsEffects, CategoriesEffects]),
     ],
-    exports: [AppLayoutComponent]
+    exports: [AppLayoutComponent],
 })
-export class AppLayoutModule { }
+export class AppLayoutModule {}

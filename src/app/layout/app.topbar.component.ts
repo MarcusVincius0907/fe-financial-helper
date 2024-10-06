@@ -1,6 +1,9 @@
 import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MenuItem } from 'primeng/api';
 import { LayoutService } from "./service/app.layout.service";
+import { Store } from '@ngrx/store';
+import { requestTransactions, syncTransactions } from '../store/actions/transaction.action';
+import { requestCategories } from '../store/actions/category.action';
 
 @Component({
     selector: 'app-topbar',
@@ -18,7 +21,15 @@ export class AppTopBarComponent {
 
     @ViewChild('topbarmenu') menu!: ElementRef;
 
-    constructor(public layoutService: LayoutService) { }
+    constructor(public layoutService: LayoutService, private store$: Store) { }
 
+    ngOnInit(){
+        this.store$.dispatch(requestTransactions())
+        this.store$.dispatch(requestCategories())
+    }
+
+    public syncTransactions(){
+        this.store$.dispatch(syncTransactions())
+    }
 
 }

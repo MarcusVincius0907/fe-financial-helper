@@ -7,7 +7,6 @@ import { CategoriesService } from 'src/app/demo/service/categories.service';
 import {
     createCategory,
     deleteCategory,
-    requestCategories,
     updateCategory,
 } from 'src/app/store/actions/category.action';
 import { getCategories } from 'src/app/store/selectors/category.selector';
@@ -52,7 +51,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.store$.dispatch(requestCategories());
     }
 
     ngOnDestroy(): void {

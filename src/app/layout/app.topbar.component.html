@@ -39,7 +39,7 @@
 
         <datepickertrange />
 
-        <button class="p-link layout-topbar-button">
+        <button (click)="syncTransactions()" class="p-link layout-topbar-button">
             <i class="pi pi-sync"></i>
             <span>Sync</span>
         </button>
@@ -49,4 +49,6 @@
             <span>Profile</span>
         </button>
     </div>
+
+    <p-toast />
 </div>

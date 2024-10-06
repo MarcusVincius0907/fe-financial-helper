@@ -1,13 +1,8 @@
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
-import { MessageService } from 'primeng/api';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { CategoriesService } from 'src/app/demo/service/categories.service';
-import { CustomerService } from 'src/app/demo/service/customer.service';
-import { TransactionService } from 'src/app/demo/service/transactions.service';
-import { requestCategories } from 'src/app/store/actions/category.action';
-import { requestTransactions, updateTransaction } from 'src/app/store/actions/transaction.action';
+import { updateTransaction } from 'src/app/store/actions/transaction.action';
 import { getCategories } from 'src/app/store/selectors/category.selector';
 import { getTransactions } from 'src/app/store/selectors/transaction.selector';
 import { CategoryItem, TransactionItem } from 'src/models/Transaction';
@@ -36,8 +31,6 @@ export class TransactionsListComponent {
     constructor(private store$: Store) {}
 
     ngOnInit() {
-        this.getTransactions();
-        this.getCategories();
 
         this.subscriptions.add(
             this.store$.select(getCategories).subscribe(categories => {
@@ -81,20 +74,6 @@ export class TransactionsListComponent {
             this.store$.dispatch(updateTransaction({id: transaction._id, transaction: updatedTransaction}))
         );
     }
-
-    private getTransactions(): void {
-        this.subscriptions.add(
-            this.store$.dispatch(requestTransactions())
-        );
-    }
-
-    private getCategories(): void {
-        this.subscriptions.add(
-            this.store$.dispatch(requestCategories())
-        );
-    }
-
-
 
     clear(table: Table) {
         table.clear();

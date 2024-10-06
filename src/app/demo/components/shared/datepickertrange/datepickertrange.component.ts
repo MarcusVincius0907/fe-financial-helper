@@ -1,18 +1,14 @@
-import { CommonModule } from '@angular/common';
+import { LocalStorageService } from './../../../service/local-storage.service.ts.service';
 import { Component } from '@angular/core';
-import { ButtonModule } from 'primeng/button';
-import { ChipsModule } from 'primeng/chips';
-import { InputGroupModule } from 'primeng/inputgroup';
-import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
-import { InputTextModule } from 'primeng/inputtext';
-import { OverlayPanelModule } from 'primeng/overlaypanel';
-import { CalendarModule } from 'primeng/calendar';
-import { FormsModule } from '@angular/forms';
+import { Store } from '@ngrx/store';
+import { requestTransactions, setDatesTransactions } from 'src/app/store/actions/transaction.action';
+import { getPreSelectedRange } from 'src/helper';
+
+const DEFAULT_DATE_KEY = 'DEFAULT_DATE_KEY'
+const CLOSING_DAY = 27;
 
 @Component({
   selector: 'datepickertrange',
-  standalone: true,
-  imports: [OverlayPanelModule, InputGroupModule, InputGroupAddonModule, ButtonModule, InputTextModule, ChipsModule, CommonModule, CalendarModule, FormsModule ],
   templateUrl: './datepickertrange.component.html',
   styleUrl: './datepickertrange.component.scss'
 })
@@ -20,9 +16,27 @@ export class DatepickertrangeComponent {
 
     date1: any;
 
+    constructor(private localStorageService: LocalStorageService, private store$: Store){
+        const defaultDates = localStorageService.get(DEFAULT_DATE_KEY)
+        if(defaultDates){
+            this.date1 = [new Date(defaultDates[0]), new Date(defaultDates[1])]
+        }else{
+            this.date1 = getPreSelectedRange(CLOSING_DAY)
+            localStorageService.set(DEFAULT_DATE_KEY, this.date1)
+        }
+
+        this.setDateToStr();
+    }
+
     public onSelectRange() {
+        this.localStorageService.set(DEFAULT_DATE_KEY, this.date1)
+        this.setDateToStr();
+        this.store$.dispatch(requestTransactions())
+    }
 
-        console.log(this.date1)
-
+    private setDateToStr(){
+        const fromDateStr = (this.date1[0] || new Date()).toISOString();
+        const toDateStr = (this.date1[1] || new Date()).toISOString();
+        this.store$.dispatch(setDatesTransactions({fromDate: fromDateStr, toDate: toDateStr}))
     }
 }

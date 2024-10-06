@@ -33,3 +33,10 @@ export function generateISODate(
 
   return isoDate;
 }
+
+export function getPreSelectedRange(endingDate: number): Date[]{
+    const today = new Date();
+    const currentMonth = new Date(today.getFullYear(), today.getMonth(), endingDate);
+    const previousMonth = new Date(today.getFullYear(), today.getMonth() - 1, endingDate);
+    return [previousMonth,currentMonth];
+}
