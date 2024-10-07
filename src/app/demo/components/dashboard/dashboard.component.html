@@ -1,147 +1,157 @@
-<div class="grid">
+<div class="grid" *ngIf="charts; else noCharts">
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Local mais visitado</span>
-                    <div class="text-900 font-medium text-xl">Delta Super Mercado</div>
+                    <span class="block text-500 font-medium mb-3"
+                        >Local mais visitado</span
+                    >
+                    <div class="text-900 font-medium text-xl">
+                        {{ charts.mostVisited }}
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-orange-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                <div
+                    class="flex align-items-center justify-content-center bg-orange-100 border-round"
+                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                >
                     <i class="pi pi-map-marker text-orange-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">24x </span>
-            <span class="text-500">visitado</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Conta mais cara</span>
-                    <div class="text-900 font-medium text-xl">Arena atacado: $2.100</div>
+                    <span class="block text-500 font-medium mb-3"
+                        >Conta mais cara</span
+                    >
+                    <div class="text-900 font-medium text-xl">
+                        {{ charts.mostExpensive }}
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-green-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                <div
+                    class="flex align-items-center justify-content-center bg-green-100 border-round"
+                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                >
                     <i class="pi pi-dollar text-green-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">$300 </span>
-            <span class="text-500">no chiquinho sorvetes</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Categoria que mais gastou</span>
-                    <div class="text-900 font-medium text-xl">Lazer</div>
+                    <span class="block text-500 font-medium mb-3"
+                        >Categoria que mais gastou</span
+                    >
+                    <div class="text-900 font-medium text-xl">
+                        {{ charts.mostSpentCategory }}
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-cyan-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
+                <div
+                    class="flex align-items-center justify-content-center bg-cyan-100 border-round"
+                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                >
                     <i class="pi pi-shopping-cart text-cyan-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">Feira  </span>
-            <span class="text-500">ficou em segundo lugar</span>
         </div>
     </div>
     <div class="col-12 lg:col-6 xl:col-3">
         <div class="card mb-0">
             <div class="flex justify-content-between mb-3">
                 <div>
-                    <span class="block text-500 font-medium mb-3">Compras acima de $100</span>
-                    <div class="text-900 font-medium text-xl">152 Compras</div>
+                    <span class="block text-500 font-medium mb-3"
+                        >Compras acima de $100</span
+                    >
+                    <div class="text-900 font-medium text-xl">
+                        {{ charts.overHungredSpent }} Compras
+                    </div>
                 </div>
-                <div class="flex align-items-center justify-content-center bg-purple-100 border-round" [ngStyle]="{width: '2.5rem', height: '2.5rem'}">
-                    <i class="pi pi-wallet
-                    text-purple-500 text-xl"></i>
+                <div
+                    class="flex align-items-center justify-content-center bg-purple-100 border-round"
+                    [ngStyle]="{ width: '2.5rem', height: '2.5rem' }"
+                >
+                    <i class="pi pi-wallet text-purple-500 text-xl"></i>
                 </div>
             </div>
-            <span class="text-green-500 font-medium">1 </span>
-            <span class="text-500">acima de $500</span>
         </div>
     </div>
 
     <div class="col-12 xl:col-6">
         <div class="card flex flex-column align-items-center">
             <h5 class="text-left w-full">Gastos por categoria</h5>
-            <p-chart type="pie" [data]="pieData" [options]="pieOptions"></p-chart>
+            <p-chart
+                type="pie"
+                [data]="pieData"
+                [options]="pieOptions"
+            ></p-chart>
         </div>
 
         <div class="card">
             <h5>Budget por categoria</h5>
-            <div class="mb-5">
-                <div class="mb-2">Lazer</div>
-                <p-progressBar [value]="50">
-                    <ng-template pTemplate="content" let-value> 
-                    <span>{{value}}/100</span>    
-                    </ng-template>
-                </p-progressBar>
-            </div>
-
-            <div class="mb-5">
-                <div class="mb-2">Lazer</div>
-                <p-progressBar [value]="50">
-                    <ng-template pTemplate="content" let-value> 
-                    <span>{{value}}/100</span>    
-                    </ng-template>
-                </p-progressBar>
-            </div>
-
-            <div class="mb-5">
-                <div class="mb-2">Lazer</div>
-                <p-progressBar [value]="50">
-                    <ng-template pTemplate="content" let-value> 
-                    <span>{{value}}/100</span>    
-                    </ng-template>
-                </p-progressBar>
-            </div>
-            
+            <ng-container *ngFor="let item of budgetByCategory">
+                <div class="mb-5" *ngIf="item?.category !== 'default'">
+                    <div class="mb-2">
+                        {{ item.category }} ({{ item.current }}/{{
+                            item.expected
+                        }})
+                    </div>
+                    <p-progressBar
+                        [value]="(item.current * 100) / item.expected"
+                    >
+                    </p-progressBar>
+                </div>
+            </ng-container>
         </div>
-
-        
     </div>
 
     <div class="col-12 xl:col-6">
-        
         <div class="card">
             <h5>Gastos durante o mes</h5>
-            <p-chart type="line" [data]="chartData" [options]="chartOptions"></p-chart>
+            <p-chart
+                type="line"
+                [data]="chartData"
+                [options]="chartOptions"
+            ></p-chart>
         </div>
 
         <div class="card">
             <h5>Últimos items</h5>
-            <p-table [value]="products" [paginator]="true" [rows]="5" responsiveLayout="scroll">
+            <p-table
+                [value]="tableData"
+                [rows]="5"
+                responsiveLayout="scroll"
+            >
                 <ng-template pTemplate="header">
                     <tr>
-                        <th>Image</th>
-                        <th pSortableColumn="name">Name <p-sortIcon field="name"></p-sortIcon></th>
-                        <th pSortableColumn="price">Price <p-sortIcon field="price"></p-sortIcon></th>
-                        <th>View</th>
+                        <th>Id</th>
+                        <th>
+                            Descrição
+                        </th>
+                        <th>
+                            Valor
+                        </th>
+                        <th>Data</th>
+                        <th>Categoria</th>
                     </tr>
                 </ng-template>
-                <ng-template pTemplate="body" let-product>
+                <ng-template pTemplate="body" let-item>
                     <tr>
-                        <td style="width: 15%; min-width: 5rem;">
-                            <img src="assets/demo/images/product/{{product.image}}" class="shadow-4" alt="{{product.name}}" width="50">
-                        </td>
-                        <td style="width: 35%; min-width: 7rem;">{{product.name}}</td>
-                        <td style="width: 35%; min-width: 8rem;">{{product.price | currency:'USD'}}</td>
-                        <td style="width: 15%;">
-                            <button pButton pRipple type="button" icon="pi pi-search" class="p-button p-component p-button-text p-button-icon-only"></button>
-                        </td>
+                        <td>{{item._id | slice : -4}}</td>
+                        <td>{{item.description}}</td>
+                        <td>{{item.amount}}</td>
+                        <td>{{item.date | date : "dd/MM/yyyy" }}</td>
+                        <td>{{item.category}}</td>
                     </tr>
                 </ng-template>
             </p-table>
         </div>
-        
     </div>
-
-    
-
-    
-    
 </div>
 
-
-
-
+<ng-template #noCharts>
+    <div>Sem dados...</div>
+</ng-template>

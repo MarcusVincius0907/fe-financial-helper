@@ -4,6 +4,7 @@ import { LayoutService } from "./service/app.layout.service";
 import { Store } from '@ngrx/store';
 import { requestTransactions, syncTransactions } from '../store/actions/transaction.action';
 import { requestCategories } from '../store/actions/category.action';
+import { requestCharts } from '../store/actions/dashboard.action';
 
 @Component({
     selector: 'app-topbar',
@@ -26,6 +27,7 @@ export class AppTopBarComponent {
     ngOnInit(){
         this.store$.dispatch(requestTransactions())
         this.store$.dispatch(requestCategories())
+        this.store$.dispatch(requestCharts())
     }
 
     public syncTransactions(){

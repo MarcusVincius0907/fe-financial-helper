@@ -4,61 +4,81 @@ import { Product } from '../../api/product';
 import { ProductService } from '../../service/product.service';
 import { Subscription, debounceTime } from 'rxjs';
 import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Store } from '@ngrx/store';
+import { requestCharts } from 'src/app/store/actions/dashboard.action';
+import { getCharts } from 'src/app/store/selectors/dashboard.selector';
+import { BudgetChart, CategoryItem, TrasactionChart } from 'src/models/Transaction';
+import { DatePipe } from '@angular/common';
+import { getCategories } from 'src/app/store/selectors/category.selector';
 
 @Component({
     templateUrl: './dashboard.component.html',
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-
-    items!: MenuItem[];
-
-    products!: Product[];
-
+    tableData!: any;
     chartData: any;
-
     chartOptions: any;
-
-    subscription!: Subscription;
-
+    charts: TrasactionChart;
     pieData: any;
-    pieOptions:any;
+    pieOptions: any;
+    budgetByCategory: BudgetChart[];
+    categories: CategoryItem[] = []
 
-    constructor(private productService: ProductService, public layoutService: LayoutService) {
-        this.subscription = this.layoutService.configUpdate$
-        .pipe(debounceTime(25))
-        .subscribe((config) => {
-            this.initChart();
-        });
-    }
+    private subscriptions = new Subscription();
+
+    constructor(private store$: Store, private datePipe: DatePipe) {}
 
     ngOnInit() {
-        this.initChart();
-        this.productService.getProductsSmall().then(data => this.products = data);
+        this.subscriptions.add(
+            this.store$.select(getCharts).subscribe((charts) => {
+                if (charts) {
+                    this.charts = charts;
+                    this.buildCategoryChart(this.charts?.categoryChart);
+                    this.buildCurrentMonthExpenseChart(
+                        this.charts.currentMonthExpense
+                    );
+                    this.budgetByCategory = this.charts.budgetByCategory;
+                    this.tableData = this.charts.lastBoughtItems.map(item => ({...item, category: this.categories.find(category => category._id === item.categoryId)?.text || 'default'}))
+                }
+            })
+        );
 
-        this.items = [
-            { label: 'Add New', icon: 'pi pi-fw pi-plus' },
-            { label: 'Remove', icon: 'pi pi-fw pi-minus' }
-        ];
+        this.subscriptions.add(
+            this.store$.select(getCategories).subscribe(categories => {
+                if(categories) this.categories = categories;
+            })
+        )
+    }
 
+
+    ngOnDestroy() {
+        if (this.subscriptions) {
+            this.subscriptions.unsubscribe();
+        }
+    }
+
+    private buildCategoryChart(arr: { label: string; data: number }[]) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
-
         this.pieData = {
-            labels: ['Lazer', 'Mercado', 'Casa'],
+            labels: arr.map((item) => item.label),
             datasets: [
                 {
-                    data: [540, 325, 702],
+                    data: arr.map((item) => item.data),
                     backgroundColor: [
-                        documentStyle.getPropertyValue('--indigo-500'),
-                        documentStyle.getPropertyValue('--purple-500'),
-                        documentStyle.getPropertyValue('--teal-500')
+                        '#6366f1',
+                        '#7a6df3',
+                        '#906ef5',
+                        '#a56ff6',
+                        '#a855f7',
+                        '#a65bda',
+                        '#a361bc',
+                        '#9e68a0',
+                        '#608f93',
+                        '#14b8a6',
                     ],
-                    hoverBackgroundColor: [
-                        documentStyle.getPropertyValue('--indigo-400'),
-                        documentStyle.getPropertyValue('--purple-400'),
-                        documentStyle.getPropertyValue('--teal-400')
-                    ]
-                }]
+                },
+            ],
         };
 
         this.pieOptions = {
@@ -66,67 +86,71 @@ export class DashboardComponent implements OnInit, OnDestroy {
                 legend: {
                     labels: {
                         usePointStyle: true,
-                        color: textColor
-                    }
-                }
-            }
+                        color: textColor,
+                    },
+                },
+            },
         };
     }
 
-    initChart() {
+    private buildCurrentMonthExpenseChart(arr: { label: string; data: number }[]) {
         const documentStyle = getComputedStyle(document.documentElement);
         const textColor = documentStyle.getPropertyValue('--text-color');
-        const textColorSecondary = documentStyle.getPropertyValue('--text-color-secondary');
-        const surfaceBorder = documentStyle.getPropertyValue('--surface-border');
+        const textColorSecondary = documentStyle.getPropertyValue(
+            '--text-color-secondary'
+        );
+        const surfaceBorder =
+            documentStyle.getPropertyValue('--surface-border');
 
         this.chartData = {
-            labels: [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15],
+            labels: arr.map((item) => this.formatDate(item.label)),
             datasets: [
                 {
                     label: 'Dataset',
-                    data: [100, 200, 0, 10, 40, 7, 900],
+                    data: arr.map((item) => item.data),
                     fill: false,
-                    backgroundColor: documentStyle.getPropertyValue('--green-600'),
+                    backgroundColor:
+                        documentStyle.getPropertyValue('--green-600'),
                     borderColor: documentStyle.getPropertyValue('--green-600'),
-                    tension: .4
-                }
-            ]
+                    tension: 0.4,
+                },
+            ],
         };
 
         this.chartOptions = {
             plugins: {
                 legend: {
                     labels: {
-                        color: textColor
-                    }
-                }
+                        color: textColor,
+                    },
+                },
             },
             scales: {
                 x: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
+                        drawBorder: false,
+                    },
                 },
                 y: {
                     ticks: {
-                        color: textColorSecondary
+                        color: textColorSecondary,
                     },
                     grid: {
                         color: surfaceBorder,
-                        drawBorder: false
-                    }
-                }
-            }
+                        drawBorder: false,
+                    },
+                },
+            },
         };
     }
 
-    ngOnDestroy() {
-        if (this.subscription) {
-            this.subscription.unsubscribe();
-        }
+
+    private formatDate(date: Date | string) {
+        // Use the transform method of DatePipe to format the date
+        return this.datePipe.transform(date, 'dd/MM');
     }
 }

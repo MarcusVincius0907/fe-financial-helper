@@ -1,6 +1,7 @@
 import { LocalStorageService } from './../../../service/local-storage.service.ts.service';
 import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
+import { requestCharts } from 'src/app/store/actions/dashboard.action';
 import { requestTransactions, setDatesTransactions } from 'src/app/store/actions/transaction.action';
 import { getPreSelectedRange } from 'src/helper';
 
@@ -32,6 +33,7 @@ export class DatepickertrangeComponent {
         this.localStorageService.set(DEFAULT_DATE_KEY, this.date1)
         this.setDateToStr();
         this.store$.dispatch(requestTransactions())
+        this.store$.dispatch(requestCharts())
     }
 
     private setDateToStr(){
