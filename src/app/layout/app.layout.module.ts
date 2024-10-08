@@ -18,7 +18,6 @@ import { AppConfigModule } from './config/config.module';
 import { AppSidebarComponent } from './app.sidebar.component';
 import { AppLayoutComponent } from './app.layout.component';
 import { CalendarModule } from 'primeng/calendar';
-import { DatepickertrangeComponent } from '../demo/components/shared/datepickertrange/datepickertrange.component';
 import { OverlayPanelModule } from 'primeng/overlaypanel';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputGroupAddonModule } from 'primeng/inputgroupaddon';
@@ -32,6 +31,7 @@ import { TransactionsEffects } from '../store/effects/transaction.effect';
 import { ToastModule } from 'primeng/toast';
 import { categoriesReducer } from '../store/reducer/category.reducer';
 import { CategoriesEffects } from '../store/effects/category.effect';
+import { DatepickertrangeComponent } from '../components/shared/datepickertrange/datepickertrange.component';
 
 @NgModule({
     declarations: [

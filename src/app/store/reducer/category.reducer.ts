@@ -1,5 +1,5 @@
 import {Action, createFeatureSelector, createReducer, on} from "@ngrx/store";
-import { CategoryItem } from "src/models/Transaction";
+import { CategoryItem } from "src/app/models/Transaction";
 import { requestCategories, requestCategoriesError, requestCategoriesSuccess } from "../actions/category.action";
 
 

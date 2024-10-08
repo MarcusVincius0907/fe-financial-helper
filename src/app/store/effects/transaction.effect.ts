@@ -3,7 +3,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { catchError, switchMap, withLatestFrom } from 'rxjs';
-import { TransactionService } from 'src/app/demo/service/transactions.service';
+import { TransactionService } from 'src/app/service/transactions.service';
 import {
     requestTransactions,
     requestTransactionsError,

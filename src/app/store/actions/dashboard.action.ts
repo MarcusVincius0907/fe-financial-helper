@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { TrasactionChart } from "src/models/Transaction";
+import { TrasactionChart } from "src/app/models/Transaction";
 
 //Get charts
 export const requestCharts = createAction(

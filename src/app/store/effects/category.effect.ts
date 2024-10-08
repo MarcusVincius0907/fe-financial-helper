@@ -17,7 +17,7 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { catchError, switchMap } from 'rxjs';
-import { CategoriesService } from 'src/app/demo/service/categories.service';
+import { CategoriesService } from 'src/app/service/categories.service';
 
 @Injectable()
 export class CategoriesEffects {

@@ -1,5 +1,5 @@
 import {Action, createFeatureSelector, createReducer, on} from "@ngrx/store";
-import { TransactionItem } from "src/models/Transaction";
+import { TransactionItem } from "src/app/models/Transaction";
 import { requestTransactions, requestTransactionsError, requestTransactionsSuccess, setDatesTransactions, syncTransactionsError, syncTransactionsSuccess } from "../actions/transaction.action";
 
 

@@ -1,5 +1,5 @@
 import { createAction, props } from "@ngrx/store";
-import { CategoryForm, CategoryItem } from "src/models/Transaction";
+import { CategoryForm, CategoryItem } from "src/app/models/Transaction";
 
 //Get categories
 export const requestCategories = createAction(

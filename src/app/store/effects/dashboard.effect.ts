@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { catchError, switchMap, withLatestFrom } from 'rxjs';
-import { TransactionService } from 'src/app/demo/service/transactions.service';
+import { TransactionService } from 'src/app/service/transactions.service';
 import { getTransactionDates } from '../selectors/transaction.selector';
 import {
     requestCharts,

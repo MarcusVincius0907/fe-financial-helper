@@ -1,5 +1,5 @@
 import { Action, createFeatureSelector, createReducer, on } from '@ngrx/store';
-import { TrasactionChart } from 'src/models/Transaction';
+import { TrasactionChart } from 'src/app/models/Transaction';
 import {
     requestCharts,
     requestChartsError,
