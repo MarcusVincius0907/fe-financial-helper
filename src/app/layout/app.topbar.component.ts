@@ -27,7 +27,6 @@ export class AppTopBarComponent {
     ngOnInit(){
         this.store$.dispatch(requestTransactions())
         this.store$.dispatch(requestCategories())
-        this.store$.dispatch(requestCharts())
     }
 
     public syncTransactions(){

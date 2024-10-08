@@ -1,11 +1,6 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { MenuItem } from 'primeng/api';
-import { Product } from '../../api/product';
-import { ProductService } from '../../service/product.service';
-import { Subscription, debounceTime } from 'rxjs';
-import { LayoutService } from 'src/app/layout/service/app.layout.service';
+import { Subscription, combineLatest } from 'rxjs';
 import { Store } from '@ngrx/store';
-import { requestCharts } from 'src/app/store/actions/dashboard.action';
 import { getCharts } from 'src/app/store/selectors/dashboard.selector';
 import { BudgetChart, CategoryItem, TrasactionChart } from 'src/models/Transaction';
 import { DatePipe } from '@angular/common';
@@ -30,7 +25,11 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
     ngOnInit() {
         this.subscriptions.add(
-            this.store$.select(getCharts).subscribe((charts) => {
+            combineLatest(
+                this.store$.select(getCharts),
+                this.store$.select(getCategories)
+            ).subscribe(([charts, categories]) => {
+                if(categories) this.categories = categories;
                 if (charts) {
                     this.charts = charts;
                     this.buildCategoryChart(this.charts?.categoryChart);
@@ -43,11 +42,7 @@ export class DashboardComponent implements OnInit, OnDestroy {
             })
         );
 
-        this.subscriptions.add(
-            this.store$.select(getCategories).subscribe(categories => {
-                if(categories) this.categories = categories;
-            })
-        )
+
     }
 
 

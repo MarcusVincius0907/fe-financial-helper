@@ -33,7 +33,6 @@ export class DatepickertrangeComponent {
         this.localStorageService.set(DEFAULT_DATE_KEY, this.date1)
         this.setDateToStr();
         this.store$.dispatch(requestTransactions())
-        this.store$.dispatch(requestCharts())
     }
 
     private setDateToStr(){

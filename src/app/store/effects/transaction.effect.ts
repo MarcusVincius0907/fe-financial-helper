@@ -16,6 +16,7 @@ import {
     updateTransactionSuccess,
 } from '../actions/transaction.action';
 import { getTransactionDates } from '../selectors/transaction.selector';
+import { requestCharts } from '../actions/dashboard.action';
 
 @Injectable()
 export class TransactionsEffects {
@@ -34,11 +35,15 @@ export class TransactionsEffects {
                 this.transactionsService
                     .getFilteredByDate(fromDate, toDate)
                     .pipe(
-                        switchMap((response) => [
-                            requestTransactionsSuccess({
-                                transactions: response.data,
-                            }),
-                        ]),
+                        switchMap((response) => {
+
+                            return [
+                                requestTransactionsSuccess({
+                                    transactions: response.data,
+                                }),
+                                requestCharts(),
+                            ];
+                        }),
                         catchError((error) => [
                             requestTransactionsError({ error }),
                         ])
@@ -60,8 +65,10 @@ export class TransactionsEffects {
                                 summary: 'Sucesso',
                                 detail: 'Transação atualizada.',
                             });
-                            this.store$.dispatch(requestTransactions());
-                            return [updateTransactionSuccess()];
+                            return [
+                                updateTransactionSuccess(),
+                                requestTransactions(),
+                            ];
                         }),
                         catchError(() => {
                             this.messageService.add({
@@ -90,7 +97,11 @@ export class TransactionsEffects {
                                 summary: 'Sucesso',
                                 detail: 'Sincronização finalizada',
                             });
-                            return [syncTransactionsSuccess()];
+
+                            return [
+                                syncTransactionsSuccess(),
+                                requestTransactions(),
+                            ];
                         }),
                         catchError((error) => {
                             this.messageService.add({

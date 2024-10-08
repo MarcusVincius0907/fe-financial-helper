@@ -140,7 +140,7 @@
                     {{ transaction.amount }}
                 </td>
                 <td>
-                    {{ transaction.date | date : "dd/MM/yyyy" }}
+                    {{ transaction.date | date : "dd/MM/yyyy" :"+0000" }}
                 </td>
                 <td>
                     <select class=" border-none outline-none text-gray-600" (change)="onCategorySelected($event.target, transaction)">
