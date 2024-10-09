@@ -11,6 +11,8 @@ import { StoreModule } from '@ngrx/store';
 import { EffectsModule } from '@ngrx/effects';
 import { MessageService } from 'primeng/api';
 import { NotfoundComponent } from './components/notfound/notfound.component';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { JwtInterceptor } from './interceptor/index.interceptor';
 
 @NgModule({
     declarations: [AppComponent, NotfoundComponent],
@@ -22,6 +24,7 @@ import { NotfoundComponent } from './components/notfound/notfound.component';
     ],
     providers: [
         { provide: LocationStrategy, useClass: PathLocationStrategy },
+        { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         MessageService
     ],
     bootstrap: [AppComponent],

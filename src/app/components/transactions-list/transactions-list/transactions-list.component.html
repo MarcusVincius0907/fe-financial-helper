@@ -129,7 +129,7 @@
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-transaction>
-            <tr>
+            <tr  [ngStyle]="{'background-color': transaction.categoryId === 'default' ? '#ebebeb' : ''}">
                 <td>
                     {{ transaction._id | slice : -4 }}
                 </td>
