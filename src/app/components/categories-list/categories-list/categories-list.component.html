@@ -34,6 +34,7 @@
                 <td>{{ category._id | slice : -4 }}</td>
                 <td>{{ category.text }}</td>
                 <td>{{ category.value }}</td>
+                <td>{{ category.budget }}</td>
                 <td><button pButton pRipple icon="pi pi-pencil" class="p-button-rounded p-button-success mr-2" (click)="onEdit(category)"></button></td>
                 <td><button pButton pRipple icon="pi pi-trash" class="p-button-rounded p-button-warning" (click)="onOpenDeleteDialog(category)"></button></td>
 

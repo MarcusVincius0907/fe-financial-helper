@@ -6,14 +6,15 @@ import {
     HttpHandler,
     HttpEvent,
 } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { catchError, Observable, throwError } from 'rxjs';
 import { localStorageKey } from '../constans';
+import { Router } from '@angular/router';
 
 @Injectable({
     providedIn: 'root',
 })
 export class JwtInterceptor implements HttpInterceptor {
-    constructor(private localStorageService: LocalStorageService) {}
+    constructor(private localStorageService: LocalStorageService, private router: Router) {}
 
     intercept(
         req: HttpRequest<any>,
@@ -21,12 +22,18 @@ export class JwtInterceptor implements HttpInterceptor {
     ): Observable<HttpEvent<any>> {
         const token = this.localStorageService.get(localStorageKey.JWT_TOKEN);
 
+        let newReq = req
         if (token) {
-            const clonedReq = req.clone({
+            newReq = req.clone({
                 headers: req.headers.set('Authorization', `Bearer ${token}`),
             });
-            return next.handle(clonedReq);
         }
-        return next.handle(req);
+        return next.handle(newReq).pipe(catchError(error =>{
+            if (error.status === 401) {
+                this.router.navigate(['/auth/login'])
+                this.localStorageService.set(localStorageKey.JWT_TOKEN, '')
+            }
+            return throwError(error);
+        }))
     }
 }

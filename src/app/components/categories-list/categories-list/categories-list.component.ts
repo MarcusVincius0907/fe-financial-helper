@@ -22,6 +22,7 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
         'Id',
         'Texto',
         'Valor',
+        'Budget',
         'Editar',
         'Deletar',
     ];
