@@ -11,6 +11,8 @@ import {
     syncTransactions,
     syncTransactionsError,
     syncTransactionsSuccess,
+    updateAllByDescription,
+    updateAllByDescriptionSuccess,
     updateTransaction,
     updateTransactionError,
     updateTransactionSuccess,
@@ -110,6 +112,38 @@ export class TransactionsEffects {
                                 detail: 'Não foi possível sincronizar',
                             });
                             return [syncTransactionsError({ error })];
+                        })
+                    )
+            )
+        )
+    );
+
+    //create update all by description
+    updateAllByDescriptionEffect$ = createEffect(() =>
+        this.actions$.pipe(
+            ofType(updateAllByDescription),
+            switchMap((action) =>
+                this.transactionsService
+                    .updateAllByDescription(action)
+                    .pipe(
+                        switchMap(() => {
+                            this.messageService.add({
+                                severity: 'success',
+                                summary: 'Sucesso',
+                                detail: 'Transações atualizadas.',
+                            });
+                            return [
+                                updateAllByDescriptionSuccess(),
+                                requestTransactions(),
+                            ];
+                        }),
+                        catchError(() => {
+                            this.messageService.add({
+                                severity: 'error',
+                                summary: 'Erro',
+                                detail: 'Não foi possível atualizar as transações.',
+                            });
+                            return [updateAllByDescriptionSuccess()];
                         })
                     )
             )

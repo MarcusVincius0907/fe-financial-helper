@@ -50,3 +50,18 @@ export const syncTransactionsError = createAction(
     'Sync Transactions Error',
     props<{ error: string }>()
 );
+
+//update all by description
+export const updateAllByDescription = createAction(
+    'Update All By Description',
+    props<TransactionItem>()
+);
+
+export const updateAllByDescriptionSuccess = createAction(
+    'Update All By Description Success'
+);
+
+export const updateAllByDescriptionError = createAction(
+    'Update All By Description Error',
+    props<{ error: string }>()
+);

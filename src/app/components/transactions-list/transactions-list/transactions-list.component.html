@@ -4,7 +4,7 @@
     <p-table
         #dt1
         [value]="transactions"
-        dataKey="id"
+        dataKey="_id"
 
         [loading]="loading"
         [globalFilterFields]="[
@@ -126,6 +126,17 @@
                         /> -->
                     </div>
                 </th>
+                <th style="min-width: 15rem">
+                    <div class="flex align-items-center">
+                        Actions
+                        <!-- <p-columnFilter
+                            type="numeric"
+                            field="balance"
+                            display="menu"
+                            currency="USD"
+                        /> -->
+                    </div>
+                </th>
             </tr>
         </ng-template>
         <ng-template pTemplate="body" let-transaction>
@@ -143,17 +154,25 @@
                     {{ transaction.date | date : "dd/MM/yyyy" :"+0000" }}
                 </td>
                 <td>
-                    <select class=" border-none outline-none text-gray-600" (change)="onCategorySelected($event.target, transaction)">
-                        <option *ngIf="transaction.categoryId === 'default'" value="default">Sem categoria</option>
-                        <option
-                            *ngFor="let category of categories"
-                            [selected]="transaction.categoryId === category._id"
-                            [value]="category.value"
-                            [id]="category._id"
-                          >
-                            {{ category.text }}
-                          </option>
-                      </select>
+                    <div class="flex items-center justify-center">
+                        <select class=" border-none outline-none text-gray-600" (change)="onCategorySelected($event.target, transaction)">
+                            <option *ngIf="transaction.categoryId === 'default'" value="default">Sem categoria</option>
+                            <option
+                                *ngFor="let category of categories"
+                                [selected]="transaction.categoryId === category._id"
+                                [value]="category.value"
+                                [id]="category._id"
+                              >
+                                {{ category.text }}
+                              </option>
+                          </select>
+                        
+                          
+                    </div>
+
+                </td>
+                <td>
+                    <p-button class=" pl-2" icon="pi pi-bolt" variant="text" size="small" (click)="updateAll(transaction)"/>
                 </td>
 
             </tr>

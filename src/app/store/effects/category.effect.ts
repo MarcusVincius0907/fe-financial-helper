@@ -47,7 +47,7 @@ export class CategoriesEffects {
             ofType(createCategory),
             switchMap((action) =>
                 {
-                    debugger; return this.categoriesService.create(action.categoryForm).pipe(
+                    return this.categoriesService.create(action.categoryForm).pipe(
                     switchMap(() => {
                         this.messageService.add({ severity: 'success', summary: 'Sucesso', detail: 'Categoria criada.' });
                         this.store$.dispatch(requestCategories())

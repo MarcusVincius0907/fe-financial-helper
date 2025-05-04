@@ -82,7 +82,6 @@ export class CategoriesListComponent implements OnInit, OnDestroy {
                 budget: this.category.budget
             };
             if (!this.isEdit) {
-                debugger
                 this.subscriptions.add(
                     this.store$.dispatch(createCategory({ categoryForm }))
                 );

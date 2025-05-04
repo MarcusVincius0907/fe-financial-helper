@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Store } from '@ngrx/store';
 import { Table } from 'primeng/table';
 import { Subscription } from 'rxjs';
-import { updateTransaction } from 'src/app/store/actions/transaction.action';
+import { updateAllByDescription, updateTransaction } from 'src/app/store/actions/transaction.action';
 import { getCategories } from 'src/app/store/selectors/category.selector';
 import { getTransactions } from 'src/app/store/selectors/transaction.selector';
 import { CategoryItem, TransactionItem } from 'src/app/models/Transaction';
@@ -72,6 +72,16 @@ export class TransactionsListComponent {
 
         this.subscriptions.add(
             this.store$.dispatch(updateTransaction({id: transaction._id, transaction: updatedTransaction}))
+        );
+    }
+
+    trackById(index: number, item: any): any {
+       return item._id; // or 'id' or any unique field
+    }
+
+    updateAll(transaction: TransactionItem, category: CategoryItem){
+        this.subscriptions.add(
+            this.store$.dispatch(updateAllByDescription(transaction))
         );
     }
 

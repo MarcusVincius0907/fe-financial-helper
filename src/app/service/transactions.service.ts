@@ -31,6 +31,16 @@ export class TransactionService {
         );
     }
 
+    updateAllByDescription(
+        bodyData: TransactionItem
+    ): Observable<Response<TransactionItem[]>> {
+        const { description, categoryId } = bodyData;
+        return this.http.put<Response<TransactionItem[]>>(
+        `${this.apiUrl}/transaction/update-by-description`,
+        { description, categoryId }
+        );
+    }
+
     syncTransactions(
         fromDate: string,
         toDate: string
